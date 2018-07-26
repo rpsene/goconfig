@@ -1,7 +1,7 @@
 #!/bin/bash
 
 : '
-Copyright (C) 2018 IBM Corporation
+Copyright (C) 2018 Rafael Peria de Sene
 Licensed under the Apache License, Version 2.0 (the “License”);
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -56,9 +56,9 @@ function get_all_versions () {
     echo "${versions[@]}"
 }
 
+# Returns the lasted version of Go available for a given
+# architecture
 function download_go () { 
-    # Returns the lasted version of Go available for a given
-    # architecture
     if [ $# -eq 0 ]
     then
         echo "The GO version or the architecture is missing."
@@ -71,12 +71,23 @@ function download_go () {
 # Creates the necessary infrastructure to get a fully functional
 # environment for development and building using Go
 function create_go_env () {
-    mkdir "$HOME"/go-workspace
 
+    # go-workspace is a directory hierarchy where you keep your GO code
     # src contains Go source files,
     # pkg contains package objects, and
     # bin contains executable commands
-    mkdir -p ~/go-workspace/bin ~/go-workspace/src ~/go-workspace/pkg
+    if [ ! -d "$HOME"/go-workspace ]; then
+        mkdir -p "$HOME"/go-workspace
+    fi
+    if [ ! -d "$HOME"/go-workspace/bin ]; then
+        mkdir -p "$HOME"/go-workspace/bin
+    fi
+    if [ ! -d "$HOME"/go-workspace/src ]; then
+        mkdir -p "$HOME"/go-workspace/src
+    fi
+    if [ ! -d "$HOME"/go-workspace/pkg ]; then
+        mkdir -p "$HOME"/go-workspace/pkg
+    fi
 
     PATH=$PATH:/usr/local/go/bin
     export PATH
