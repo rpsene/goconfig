@@ -47,7 +47,7 @@ function get_all_versions () {
     # remove the prefix and the suffix to get only the version number
     versions=( "$(echo "$content" | grep -Eoi '<a [^>]+>' | \
     grep -Eo 'href="[^\"]+"' | grep "$1" | grep linux | grep "tar.gz" | \
-    awk '!/beta/' | sed -e "s/^href=//" | tr -d '",' | \
+    awk '!/beta/' | awk '!/rc/' | sed -e "s/^href=//" | tr -d '",' | \
     awk '{split($0, array, "/"); print array[5]}' | \
     sort -t. -k 1,1n -k 2,2n -k 3,3n | uniq | sed -e "s/^go//" | \
     sed -e "s/.linux-$1.tar.gz//")" )
