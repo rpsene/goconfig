@@ -99,6 +99,10 @@ function create_go_env () {
     export GOPATH
 }
 
+function download_go_dep () {
+    curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+}
+
 # Executes a simple GO application to ensure the setup is correctly
 # configured
 function run_sample () {
@@ -171,9 +175,12 @@ function run () {
         # Create the env for using GO
         create_go_env
 
+        # Download Go Dep
+        download_go_dep
+        
         # Run Sample
         run_sample
-
+        
         return
     elif [ "$1" = "remove" ]
     then
