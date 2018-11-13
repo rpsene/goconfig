@@ -56,7 +56,7 @@ function get_all_versions () {
     echo "${versions[@]}"
 }
 
-# Returns the lasted version of Go available for a given
+# Returns the lastest version of Go available for a given
 # architecture
 function download_go () { 
     if [ $# -eq 0 ]
