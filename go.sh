@@ -97,7 +97,6 @@ function create_go_env () {
     export PATH
     GOPATH=$(go env GOPATH)
     export GOPATH
-    echo "$GOPATH" >> /etc/environment
     go env
 }
 
