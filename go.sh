@@ -93,10 +93,12 @@ function create_go_env () {
     export PATH
     GOPATH=$HOME/go-workspace
     export GOPATH
-    PATH=$PATH:$(go env GOPATH)/bin
+    PATH=$PATH:$(go env GOPATH)/bin:$(go env GOPATH)
     export PATH
     GOPATH=$(go env GOPATH)
     export GOPATH
+    echo "$GOPATH" >> /etc/environment
+    go env
 }
 
 function download_go_dep () {
