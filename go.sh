@@ -147,7 +147,7 @@ function run () {
     esac
 
     # Check whether it was set at least two parameters
-    if [ "$#" -eq 2 ]
+    if [ "$#" -lt 2 ]
     then
             echo "Usage : source $0 [install, remove, env]"
             echo "
@@ -167,11 +167,16 @@ function run () {
         # Get all available versions
         all=( $(get_all_versions $ARCH) )
 
-        # Based on all collected versions, grab the latest one available
-        lastest_version=${all[${#all[@]}-1]}
+        # Pick which version to install
+        if [ -n "$2" ]; then
+            for v in ${all[@]}; do
+                [ "$2" == "$v" ] && version2install=$v
+            done
+        fi
+        [ -z "$version2install" ] && version2install=${all[${#all[@]}-1]} # defaults to the latest available
 
         # Download the lastest version
-        download_go "$lastest_version" $ARCH
+        download_go "$version2install" $ARCH
 
         # Create the env for using GO
         create_go_env
