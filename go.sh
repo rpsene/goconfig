@@ -1,7 +1,8 @@
 #!/bin/bash
 
 : '
-Copyright (C) 2018 Rafael Peria de Sene
+Copyright (C) 2018, 2020
+
 Licensed under the Apache License, Version 2.0 (the “License”);
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,8 +12,10 @@ distributed under the License is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
     Contributors:
         * Rafael Sene <rpsene@gmail.com>
+        * Hiro Miyamoto <miyamotoh@fuji.waseda.jp>
 
     This script installs and configure a GO development environment on Linux
     running on x86_64, AMD64, ppc64le and s390x.
@@ -22,7 +25,7 @@ limitations under the License.
 SUPPORTED_ARCHS=(amd64 x86_64 ppc64le s390x)
 
 # Downloads the raw content of Go download page
-function get_content { 
+function get_content {
     local content
     content=$(wget https://golang.org/dl/ -q -O -)
     # Returns the raw content
@@ -58,7 +61,7 @@ function get_all_versions () {
 
 # Returns the lastest version of Go available for a given
 # architecture
-function download_go () { 
+function download_go () {
     if [ $# -eq 0 ]
     then
         echo "The GO version or the architecture is missing."
@@ -136,10 +139,10 @@ function run () {
         ARCH="amd64"
     fi
 
-    # Check wheter or not the platform where the platform where 
+    # Check wheter or not the platform where the platform where
     # script is executed is supported
-    case "${SUPPORTED_ARCHS[@]}" in  
-        *"$ARCH"*) 
+    case "${SUPPORTED_ARCHS[@]}" in
+        *"$ARCH"*)
             echo "Supported Architecture :)";;
         *)
             echo "ERROR: Supported architectures are:" "${SUPPORTED_ARCHS[@]}"
@@ -147,13 +150,15 @@ function run () {
     esac
 
     # Check whether it was set at least two parameters
-    if [ "$#" -lt 2 ]
+    if [ "$#" -lt 1 ]
     then
-            echo "Usage : source $0 [install, remove, env]"
+            echo "Usage : source $0 [install, remove, env, versions]"
             echo "
-                install: install go
-                remove: remove go (delete it from /usr/local)
-                env: configure the environment to start using go
+                install: install GO
+		        install x.y.z: install a specific version of GO
+                remove: remove GO (delete it from /usr/local)
+                env: configure the environment to start using GO
+		        versions: list of GO versions that can be installed
                 "
             return
     fi
@@ -183,10 +188,10 @@ function run () {
 
         # Download Go Dep
         download_go_dep
-        
+
         # Run Sample
         run_sample
-        
+
         return
     elif [ "$1" = "remove" ]
     then
@@ -204,6 +209,12 @@ function run () {
 
         # Run Sample
         run_sample
+
+        return
+    elif [ "$1" = "versions" ]
+    then
+	all=( $(get_all_versions $ARCH) )
+	echo "${all[*]}"
 
         return
     else
