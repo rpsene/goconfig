@@ -110,7 +110,8 @@ function download_go_dep () {
 # Executes a simple GO application to ensure the setup is correctly
 # configured
 function run_sample () {
-    mkdir -p "$GOPATH"/src/hello
+    
+	mkdir -p "$GOPATH"/src/hello
 
 echo "
 package main
@@ -152,13 +153,13 @@ function run () {
     # Check whether it was set at least two parameters
     if [ "$#" -lt 1 ]
     then
-            echo "Usage : source $0 [install, remove, env, versions]"
+            echo "Usage : source $0 [install, install x,y.z, remove, env, versions]"
             echo "
                 install: install GO
-		        install x.y.z: install a specific version of GO
+		install x.y.z: install a specific version of GO
                 remove: remove GO (delete it from /usr/local)
                 env: configure the environment to start using GO
-		        versions: list of GO versions that can be installed
+		versions: list of GO versions that can be installed
                 "
             return
     fi
@@ -218,14 +219,15 @@ function run () {
 
         return
     else
-        echo "Please, select one of the supported options."
-        echo "Usage : source $0 [install, remove, env]"
+        echo "Usage : source $0 [install, install x,y.z, remove, env, versions]"
         echo "
-             install: install go
-             remove: remove go (delete it from /usr/local)
-             env: configure the environment to start using go
-            "
-        return
+		install: install GO
+		install x.y.z: install a specific version of GO
+		remove: remove GO (delete it from /usr/local)
+		env: configure the environment to start using GO
+		versions: list of GO versions that can be installed
+                "
+	return
     fi
 }
 
