@@ -69,6 +69,7 @@ function download_go () {
     fi
     wget https://dl.google.com/go/go"$1".linux-"$2".tar.gz
     tar -C /usr/local -xzf go"$1".linux-"$2".tar.gz
+    rm -f ./go"$1".linux-"$2".tar.gz
 }
 
 # Creates the necessary infrastructure to get a fully functional
