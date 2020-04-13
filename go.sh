@@ -130,6 +130,17 @@ func main() {
     rm -rf ./hello
 }
 
+function help(){
+	echo "Usage : source $0 [install, install x,y.z, remove, env, versions]"
+        echo "
+		install: install GO
+		install x.y.z: install a specific version of GO
+		remove: remove GO (delete it from /usr/local)
+		env: configure the environment to start using GO
+		versions: list of GO versions that can be installed
+                "
+}
+
 # The main function which contains the control of the script
 function run () {
     # Gets the architecture from where this is script is running
@@ -154,14 +165,7 @@ function run () {
     # Check whether it was set at least two parameters
     if [ "$#" -lt 1 ]
     then
-            echo "Usage : source $0 [install, install x,y.z, remove, env, versions]"
-            echo "
-                install: install GO
-		install x.y.z: install a specific version of GO
-                remove: remove GO (delete it from /usr/local)
-                env: configure the environment to start using GO
-		versions: list of GO versions that can be installed
-                "
+            help
             return
     fi
 
@@ -181,19 +185,14 @@ function run () {
             done
         fi
         [ -z "$version2install" ] && version2install=${all[${#all[@]}-1]} # defaults to the latest available
-
         # Download the lastest version
         download_go "$version2install" $ARCH
-
         # Create the env for using GO
         create_go_env
-
         # Download Go Dep
         download_go_dep
-
         # Run Sample
         run_sample
-
         return
     elif [ "$1" = "remove" ]
     then
@@ -202,32 +201,21 @@ function run () {
             return
         fi
         rm -rf /usr/local/go
-
         return
     elif [ "$1" = "env" ]
     then
         # Create the env for using GO
         create_go_env
-
         # Run Sample
         run_sample
-
         return
     elif [ "$1" = "versions" ]
     then
 	all=( $(get_all_versions $ARCH) )
 	echo "${all[*]}"
-
         return
     else
-        echo "Usage : source $0 [install, install x,y.z, remove, env, versions]"
-        echo "
-		install: install GO
-		install x.y.z: install a specific version of GO
-		remove: remove GO (delete it from /usr/local)
-		env: configure the environment to start using GO
-		versions: list of GO versions that can be installed
-                "
+        help
 	return
     fi
 }
