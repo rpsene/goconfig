@@ -192,7 +192,7 @@ function run () {
         # Download Go Dep
         download_go_dep
         # Run Sample
-        run_sample
+        #run_sample
         return
     elif [ "$1" = "remove" ]
     then
@@ -207,7 +207,7 @@ function run () {
         # Create the env for using GO
         create_go_env
         # Run Sample
-        run_sample
+        #run_sample
         return
     elif [ "$1" = "versions" ]
     then
