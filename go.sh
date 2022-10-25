@@ -18,7 +18,7 @@ limitations under the License.
         * Hiro Miyamoto <miyamotoh@fuji.waseda.jp>
 
     This script installs and configure a GO development environment on Linux
-    running on x86_64, AMD64, ppc64le and s390x.
+    running on x86_64, AMD64, ppc64le, s390x and aarch64.
 '
 
 # Define the list of supported architectures
@@ -151,7 +151,11 @@ function run () {
     then
         ARCH="amd64"
     fi
-
+    if [ "$ARCH" = "aarch64" ]
+    then
+    	ARCH="arm64"
+    fi
+	
     # Check wheter or not the platform where the platform where
     # script is executed is supported
     case "${SUPPORTED_ARCHS[@]}" in
