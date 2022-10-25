@@ -22,7 +22,7 @@ limitations under the License.
 '
 
 # Define the list of supported architectures
-SUPPORTED_ARCHS=(aarch64 amd64 x86_64 ppc64le s390x)
+SUPPORTED_ARCHS=(arm64 amd64 x86_64 ppc64le s390x)
 
 # Downloads the raw content of Go download page
 function get_content {
